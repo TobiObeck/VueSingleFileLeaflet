@@ -10,7 +10,8 @@
       <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
       <l-marker :lat-lng="marker"></l-marker>
     </l-map>
-    {{ searchedLat }} {{ searchedLong }}
+    DEBUG: coords {{ searchedLat }}, {{ searchedLong }} Lädt?
+    {{ this.isCalculating }} Fehler? {{ this.isError }}
   </div>
 </template>
 
@@ -38,6 +39,8 @@ export default {
       searchedLong: 0,
       searchInputIsDirty: false,
       searchInput: "",
+      isCalculating: false,
+      isError: false,
       zoom: 3,
       center: L.latLng(53.0, 13.5), //[53.0, 13.5], //L.latLng(47.41322, -1.219482),
       url: "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
@@ -54,13 +57,20 @@ export default {
   methods: {
     requestCoordsBySearchInput: debounce(function() {
       this.isCalculating = true;
-      var vm = this;
       console.log("searchInput", this.searchInput);
-      axios.get("https://randomuser.me/api/").then(function(response) {
-        vm.searchedLat = response.data.results[0].location.coordinates.latitude;
-        vm.searchedLong =
-          response.data.results[0].location.coordinates.longitude;
-      });
+      axios
+        .get("https://randomuser.me/api/")
+        .then(response => {
+          this.searchedLat =
+            response.data.results[0].location.coordinates.latitude;
+          this.searchedLong =
+            response.data.results[0].location.coordinates.longitude;
+        })
+        .catch(error => {
+          this.isError = true;
+          console.log(error);
+        })
+        .finally(() => (this.isCalculating = false));
     }, 500)
   },
   watch: {
