@@ -1,5 +1,10 @@
 <template>
   <div>
+    <input
+      v-model="searchInput"
+      @keydown.enter="panToLatLng"
+      placeholder="Welche Stadt?"
+    />
     <button @click="panToLatLng">OK</button>
     <l-map style="height:200px;" ref="map" :zoom="zoom" :center="center">
       <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
@@ -9,6 +14,7 @@
 </template>
 
 <script>
+import debounce from "lodash.debounce";
 import Vue2Leaflet from "vue2-leaflet";
 //var { LMap, LTileLayer, LMarker } = Vue2Leaflet;
 //after babel transpiling (probably called destructering)
@@ -26,6 +32,8 @@ export default {
   components: { LMap, LTileLayer, LMarker },
   data() {
     return {
+      searchInputIsDirty: false,
+      searchInput: "",
       zoom: 8,
       center: L.latLng(53.0, 13.5), //[53.0, 13.5], //L.latLng(47.41322, -1.219482),
       url: "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
@@ -37,6 +45,23 @@ export default {
   methods: {
     panToLatLng: function(event) {
       console.log(this.$refs.map.mapObject);
+      alert(this.searchInput);
+    },
+    expensiveOperation: debounce(function() {
+      this.isCalculating = true;
+      setTimeout(
+        function() {
+          this.searchQueryIsDirty = false;
+          this.panToLatLng();
+        }.bind(this),
+        1000
+      );
+    }, 500)
+  },
+  watch: {
+    searchInput: function() {
+      this.searchInputIsDirty = true;
+      this.expensiveOperation();
     }
   }
 };
