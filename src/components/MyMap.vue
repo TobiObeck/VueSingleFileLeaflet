@@ -97,6 +97,7 @@ export default {
             ")"
         )
         .openPopup();
+      L.circle([52.5, 13.5], { radius: 10000 }).addTo(tempMap); // radius in meters
     }
   }
 };

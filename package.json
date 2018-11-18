@@ -1,7 +1,7 @@
 {
-  "name": "test-project",
+  "name": "simple-map-search-project-with-leaflet-and-vue-single-file-components",
   "version": "1.0.0",
-  "description": "A Vue.js project",
+  "description": "The wrapper library Vue2Leaflet is used. You can search for a place, the map zooms to the place and a circle is drawn around the place.",
   "main": "src/main.js",
   "private": true,
   "scripts": {
@@ -74,5 +74,6 @@
     "node": ">= 6.0.0",
     "npm": ">= 3.0.0"
   },
-  "browserslist": ["> 1%", "last 2 versions", "not ie <= 8"]
+  "browserslist": ["> 1%", "last 2 versions", "not ie <= 8"],
+  "keywords": []
 }
