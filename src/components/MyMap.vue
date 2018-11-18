@@ -68,8 +68,7 @@ export default {
       center: L.latLng(53.0, 13.5), //[53.0, 13.5], //L.latLng(47.41322, -1.219482),
       url: "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
       attribution:
-        '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-      marker: L.latLng(47.41322, -1.219482)
+        '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     };
   },
   computed: {
@@ -144,7 +143,9 @@ export default {
         this.searchedLong,
         popupMessage
       );
-      L.circle([52.5, 13.5], { radius: 10000 * 100 }).addTo(tempMap); // radius in meters
+      L.circle([this.searchedLat, this.searchedLong], {
+        radius: 10000 * 100
+      }).addTo(tempMap); // radius in meters
     }
   }
 };
