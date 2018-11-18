@@ -144,7 +144,7 @@ export default {
         this.searchedLong,
         popupMessage
       );
-      L.circle([52.5, 13.5], { radius: 10000 }).addTo(tempMap); // radius in meters
+      L.circle([52.5, 13.5], { radius: 10000 * 100 }).addTo(tempMap); // radius in meters
     }
   }
 };
